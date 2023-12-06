@@ -13,7 +13,7 @@ KUBECTL_VERSION=v1.24.8
 HELM_VERSION=v3.10.2
 HELMDIFF_VERSION=v3.6.0
 HELMFILE_VERSION=v0.144.0
-JQ_VERSION=1.6
+JQ_VERSION=1.7
 YQ_VERSION=v4.9.8
 
 INSECURE_REGISTRY=''
@@ -314,7 +314,7 @@ install::jq() {
   info "[Download] jq ${JQ_VERSION}"
   case "${platform}" in
     'linux')
-      curl -o jq -L "https://github.com/stedolan/jq/releases/download/jq-${JQ_VERSION}/jq-linux64-${arch}" && chmod +x ~/bin/jq
+      curl -o jq -L "https://github.com/stedolan/jq/releases/download/jq-${JQ_VERSION}/jq-linux-${arch}" && chmod +x ~/bin/jq
     ;;
     'darwin')
       curl -o jq -L "https://github.com/stedolan/jq/releases/download/jq-${JQ_VERSION}/jq-osx-${arch}" && chmod +x ~/bin/jq
