@@ -71,7 +71,7 @@ get_arch() {
     'x86_64')
       echo 'amd64'
     ;;
-    'arm64')
+    'arm64' | 'aarch64')
       echo 'arm64'
     ;;
     *)
@@ -308,15 +308,16 @@ install::yq() {
 
 install::jq() {
   local platform=$(uname | tr '[:upper:]' '[:lower:]')
+  local arch=$(get_arch)
   mkdir -p ~/bin
   pushd ~/bin > /dev/null
   info "[Download] jq ${JQ_VERSION}"
   case "${platform}" in
     'linux')
-      curl -o jq -L "https://github.com/stedolan/jq/releases/download/jq-${JQ_VERSION}/jq-linux64" && chmod +x ~/bin/jq
+      curl -o jq -L "https://github.com/stedolan/jq/releases/download/jq-${JQ_VERSION}/jq-linux64-${arch}" && chmod +x ~/bin/jq
     ;;
     'darwin')
-      curl -o jq -L "https://github.com/stedolan/jq/releases/download/jq-${JQ_VERSION}/jq-osx-amd64" && chmod +x ~/bin/jq
+      curl -o jq -L "https://github.com/stedolan/jq/releases/download/jq-${JQ_VERSION}/jq-osx-${arch}" && chmod +x ~/bin/jq
     ;;
   esac
   popd > /dev/null
@@ -370,15 +371,15 @@ install::helmfile() {
 
 install::k9s() {
   local platform=$(uname)
-  local arch=$(uname -m)
+  local arch=$(get_arch)
   mkdir -p ~/bin
   pushd ~/bin > /dev/null
   curl -O -L "https://github.com/derailed/k9s/releases/download/${K9S_VERSION}/k9s_${platform}_${arch}.tar.gz"
   mkdir -p ~/bin/k9s-${K9S_VERSION}
-  tar zxf ~/bin/k9s_${platform}_x86_64.tar.gz -C ~/bin/k9s-${K9S_VERSION}
+  tar zxf ~/bin/k9s_${platform}_${arch}.tar.gz -C ~/bin/k9s-${K9S_VERSION}
   mv ~/bin/k9s-${K9S_VERSION}/k9s ~/bin/k9s
   rm -rf ~/bin/k9s-${K9S_VERSION}
-  rm -f ~/bin/k9s_${platform}_x86_64.tar.gz
+  rm -f ~/bin/k9s_${platform}_${arch}.tar.gz
   popd > /dev/null
 }
 
